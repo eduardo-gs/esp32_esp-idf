@@ -71,7 +71,11 @@
                 "${IDF_PATH}/components/bt/host/nimble/nimble/nimble/host/util/include",
                 "${IDF_PATH}/components/bt/host/nimble/port/include",
                 "${IDF_PATH}/components/bt/host/nimble/nimble/nimble/host/services/gap/include",
-                "${IDF_PATH}/components/bt/host/nimble/nimble/nimble/host/services/gatt/include"
+                "${IDF_PATH}/components/bt/host/nimble/nimble/nimble/host/services/gatt/include",
+                
+                "${IDF_PATH}/components/btstack",
+                "${IDF_PATH}/components/btstack/include",
+                "${IDF_PATH}/components/btstack/src"
 
             ],
             "defines": [],
