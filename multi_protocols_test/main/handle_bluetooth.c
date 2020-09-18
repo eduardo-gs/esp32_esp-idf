@@ -5,6 +5,7 @@
 #include <string.h>
  
 #include "btstack.h"
+#include "comm_list.h"
 
 #define RFCOMM_SERVER_CHANNEL 1
 
@@ -43,7 +44,7 @@ static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *pack
     bd_addr_t event_addr;
     uint8_t   rfcomm_channel_nr;
     uint16_t  mtu;
-    int i;
+    uint8_t ucCount = 0, ucCheck = 0, ucCommandSelect = 0;
 
     switch (packet_type)
     {
@@ -102,14 +103,49 @@ static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *pack
             break;
 
         case RFCOMM_DATA_PACKET:
-            memcpy(line_buffer, packet, size);
-            size_send_packet = size;
             printf("RCV: ");
-            for (i=0;i<size;i++)
+            for (ucCount=0;ucCount<size;ucCount++)
             {
-                putchar(packet[i]);
+                putchar(packet[ucCount]);
             }
             printf("\n");
+            
+            for( ucCount = 0; ucCount < ucCommandListSize(); ucCount++ )
+            {
+                ucCheck = strncmp( ( char * ) packet, cCommandList[ ucCount ], strlen( cCommandList[ ucCount ] ) );
+                if(ucCheck == 0)
+                {
+                    ucCommandSelect = ucCount;
+                    break;
+                }
+                else
+                {
+                    /* Number out of the command list range.*/
+                    ucCommandSelect = 100;
+                }
+            }     
+            switch (ucCommandSelect)
+            {
+                case 0:
+                    strcpy(line_buffer, "1\n");
+                    break;
+                case 1:
+                    strcpy(line_buffer, "2\n");
+                    break;
+                case 2:
+                    strcpy(line_buffer, "3\n");
+                    break;
+                case 3:
+                    strcpy(line_buffer, "4\n");
+                    break;
+                case 4:
+                    strcpy(line_buffer, "5\n");
+                    break;
+                default:
+                    strcpy(line_buffer, "ERROR\n");
+                    break;
+            }
+            size_send_packet = strlen(line_buffer);
             rfcomm_request_can_send_now_event(rfcomm_channel_id);
             break;
 
