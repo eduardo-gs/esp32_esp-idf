@@ -6,6 +6,7 @@
  
 #include "btstack.h"
 #include "comm_list.h"
+#include "handle_command.h"
 
 #define RFCOMM_SERVER_CHANNEL 1
 
@@ -15,7 +16,8 @@ static uint16_t rfcomm_channel_id;
 static uint8_t  spp_service_buffer[150];
 static btstack_packet_callback_registration_t hci_event_callback_registration;
 static uint16_t size_send_packet;
-static char line_buffer[100];
+static char line_buffer[400];
+static uint32_t dice_face;
 
 static void spp_service_setup(void)
 {
@@ -120,19 +122,23 @@ static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *pack
                 }
                 else
                 {
-                    /* Number out of the command list range.*/
+                    // Number out of the command list range.
                     ucCommandSelect = 100;
                 }
             }     
             switch (ucCommandSelect)
             {
                 case 0:
-                    strcpy(line_buffer, "1\n");
+                    dice_face = dice_roll();
+                    printf("Dice Number: %d\n", dice_face);
+                    sprintf(line_buffer, "%d\n", dice_face);
                     break;
                 case 1:
-                    strcpy(line_buffer, "2\n");
+                    do_i2cdetect_cmd(&line_buffer);
+                    // strcpy(line_buffer, "2\n");
                     break;
                 case 2:
+                    wifi_scan();
                     strcpy(line_buffer, "3\n");
                     break;
                 case 3:

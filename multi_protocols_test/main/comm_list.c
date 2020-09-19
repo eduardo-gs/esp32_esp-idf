@@ -3,7 +3,7 @@
 
 const char cCommandList[][15] =
 {
-  "roll dice", // 0
+  "dice roll", // 0
   "i2c scan", // 1
   "wi-fi scan", // 2
   "connect", // 3
