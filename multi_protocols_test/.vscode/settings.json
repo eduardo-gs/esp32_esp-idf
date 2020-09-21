@@ -8,6 +8,11 @@
   "files.associations": {
     "*.md": "markdown",
     "*.mdx": "tdx",
-    "stdio.h": "c"
+    "stdio.h": "c",
+    "sstream": "c",
+    "bitset": "c",
+    "chrono": "c",
+    "algorithm": "c",
+    "*.ipp": "c"
   }
 }
