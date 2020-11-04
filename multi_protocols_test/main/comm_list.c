@@ -14,6 +14,6 @@ const char comm_list[][15] =
 
 uint8_t comm_list_size(void)
 {
-  return ((sizeof(comm_list)-1)/(sizeof(comm_list[0])-1));
+  return ((sizeof(comm_list))/(sizeof(comm_list[0])));
 }
 /******************************************************************************/
